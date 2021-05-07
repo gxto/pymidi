@@ -28,10 +28,10 @@ import random
 # 自己的库
 import play_midi as pm
 import DY_read_midi_0 as rd
-import DY_geneEncoding_2 as DYg
-
-
-
+import DY_geneEncoding_2 as Dge
+import DY_global as Dg
+import DY_cor_0 as Dco
+import DY_plot_0 as Dpl
 
 
 def get_chord_arrangement(name):
@@ -211,13 +211,19 @@ def create_song(note_array_2dim,time_array_1dim,newsong="DY_newSong.mid"):
     '''
     # 设置曲速500000 代表 0.5s为一拍......
     # 目前曲速这里还是不知道怎么设置表较好......
-    track.append(MetaMessage('set_tempo', tempo=4000000, time=0))   
+    track.append(MetaMessage('set_tempo', tempo=2000000, time=0))   
+    
+    # 判断音符序列 和 时间序列 哪个短,哪个短用哪个
+    if len(note_array_2dim)>len(time_array_1dim):
+        long=len(time_array_1dim)
+    else:
+        long=len(note_array_2dim)
     
     #重点!!!!!!!!
     #下面是修改track中的内容,用于产生音符.
     # 二维数组有多长,就需要循环多少次.
     # 二维数组的行数,就代表有多少个钢琴按键组合. 
-    for cnt in range(len(note_array_2dim)):   
+    for cnt in range(long):   
         # 为midi添加一个钢琴动作,
         # 一首曲子有几个动作,就循环几次.
         add_column_chord_2(note_array_2dim[cnt],time_array_1dim[cnt],track,channel=0)
@@ -235,17 +241,62 @@ if __name__ == '__main__':
     生成这两个东西,可以用三种方法:
     '''
     
-    ''' 第一种方法,曲子导入 '''
-    note,timer=rd.midi_read("DY_kanong.mid")
-    ''' 第二种方法,仿照生成 '''
-    # 下面是根据传入的note二维序列,生成相仿的新的二维序列.
-    new_note=DYg.primary_generation_2(1,note)
-    ''' 第三种方法,手动填写 '''
-    array_note=[[45],[65,54],[60],[46],[65,75]]
-    array_time=[100,200,300,400,500]
+    # 程序运行参数配置
+    method=0
+    midi_name="DY_dalabeng.mid"
+    # 获取音乐参数,所有的参数存入全局变量中
+    Dge.global_calc_midi_parameter(midi_name)    
+    
+    
+    
+    
+    
+    
+    # 程序开始运行
+    if method==0:
+        ''' 第0种方法,曲子导入 '''
+        note,timer=rd.midi_read(midi_name)
+        #Dge.global_calc_midi_parameter(Dg.midi_note_2_list)
+        print(Dg.midi_dic_keys_list)
+        
+    if method==1:
+        ''' 第1种方法,仿照生成 '''
+        note,timer=rd.midi_read(midi_name)
+        # 下面是根据传入的note二维序列,生成相仿的新的二维序列.
+        note=Dge.primary_generation_2(1,note)
+    
+    
+    if method==2:
+        ''' 第2种方法,手动填写 '''
+        note=[[45],[65,54],[60],[46],[65,75]]
+        timer=[100,200,300,400,500]
+    
+    if method==3:
+        ''' 第3种方法,根据相似度,一段一段组装的 '''
+        note,timer=rd.midi_read(midi_name)
+        note_list=Dco.cor_correct(Dg.midi_root_list,0)
+        #print("note:::",note_list)
+        # 对生成的序列,进行格式的处理
+        note=[]
+        for data in note_list:
+            note_in=[]
+            note_in.append(data)
+            note.append(note_in)
+        print(note)
+    
+#    # 生成的新song数据处理
+#    cor1,cor_window=Dco.window_cor(note,0)
     
     # 开始作曲
-    create_song(array_note,array_time)
+    create_song(note,timer)
+    print("最终曲子",note)
+    
+    
+    
+    
+#    # 绘制图像
+#    Dpl.plot_broken("cor",Dg.midi_window_cor_list)
+#    Dpl.plot_broken("cor",cor_window)
     
     # 播放作曲
     pm.play_midi("DY_newSong.mid")

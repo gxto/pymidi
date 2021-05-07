@@ -12,6 +12,9 @@ Created on Fri Jan 22 20:48:32 2021
 # 调用官方的库
 import numpy as np
 
+# 调用绘图的库,这个是自己编写的
+import DY_plot_0 as Dp
+
 
 # 计算list的最大值,最小值,平均值
 # 计算二维序列的一些特性
@@ -33,12 +36,12 @@ def list_character(list_2dim):
     max_num=max(max_list)
     min_num=min(min_root_list)
     
-    print("list_calc.py 整个序列的最大值,最小值",max_num,min_num)
+    #print("list_calc.py 整个序列的最大值,最小值",max_num,min_num)
     
     # 一行里面的最大值和最小值.
     max_row_float=max(row_float_list)
     min_row_float=min(row_float_list)
-    print("list_calc.py 一行里面的最大波动,最小波动",max_row_float,min_row_float)
+    #print("list_calc.py 一行里面的最大波动,最小波动",max_row_float,min_row_float)
     
     
     diff_mean_note=[] # 查找样本中,每个音符的音阶相差多少
@@ -55,14 +58,13 @@ def list_character(list_2dim):
     # 整个曲子的diff        
     diff_max=max(diff_mean_note)
     diff_min=min(diff_mean_note)
-    print("list_calc.py 整个曲子求导的最大值,最小值",diff_max,diff_min)
+    #print("list_calc.py 整个曲子求导的最大值,最小值",diff_max,diff_min)
     
     return min_root_list,max_list,mean_list,row_float_list,diff_mean_note,diff_root_note    
 
 
 
-# 调用绘图的库,这个是自己编写的
-import DY_plot_0 as Dp
+
 
 
 # 计算list中每个元素的数量占的个数(实际上这里转换成比例是比较合理的).

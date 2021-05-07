@@ -49,18 +49,18 @@ def pit_chart(name,values_dic):
     # 将画布设置成正方形,则绘制的饼图是正圆
     plt.figure(name,figsize=(6,6))
     # keys()函数作用:返回字典的键为list
-    label=values_dic.keys()
+    keys=values_dic.keys()
     # values()函数用法:返回字典的值为列表
     values=values_dic.values()
     # 绘制饼状图,每个扇形距离圆心的距离
     # 用for,有几个扇形,就有几个0.01,代表每个扇形都距离圆心是0.01
     explode=[]
-    for i in label:
+    for i in keys:
         explode.append(0.01)
 
     # 绘制饼图,把设置好的参数都传进来.调用plt.pie()绘制饼状图.
     # autopct:自动添加百分比显示.
-    plt.pie(values,explode=explode,labels=label,autopct='%1.1f%%') 
+    plt.pie(values,explode=explode,labels=keys,autopct='%1.1f%%') 
     # 绘制标题
     plt.title(name)
     # 显示图片
@@ -74,11 +74,14 @@ def pit_chart(name,values_dic):
 
 if __name__ == '__main__':
     name="data"
-    data=[1,2,3,4,5,6,7,8]
+    data=[1,-2,3,-4,5,-6,7,-8]
     plot_broken(name,data)
+    
+    
+    
     name='111'
-    values=[]
-    pit_chart(name,values)
+    values_dic={"apple":6,"banana":8,"pear":6}
+    pit_chart(name,values_dic)
 
 
 

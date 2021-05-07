@@ -24,6 +24,9 @@ Created on Thu Jul 16 11:36:48 2020
 """
 
 import mido
+import copy
+
+import DY_global as Dgl
 
 '''
 输出每个midi文件中的每个动作
@@ -36,6 +39,7 @@ def send_msg():
             print(msg)
 
 
+# 默认传入的曲子是:卡农
 def midi_read(midi_file="DY_kanong.midi"):
     '''
     输入:midi_file,midi文件的名字及扩展名 是字符串格式才行.
@@ -158,12 +162,16 @@ def midi_read(midi_file="DY_kanong.midi"):
         note_list_in = sorted(note_list_in)   # 排序
         note_list_ex_sort.append(note_list_in)# 排完序后的二维音符序列.
 
-    # 函数有点长,有什么可以很好的弄缩进的东西吗......
+    # 函数有点长,有什么可以很好的弄缩进的东西吗...
+    Dgl.midi_note_2_list=copy.deepcopy(note_list_ex_sort)
+    Dgl.midi_time_1_list=copy.deepcopy(time_list)
     return note_list_ex_sort,time_list
         
 
     
     
+def try_global():
+    Dgl.list_try.append(1)
     
     
     

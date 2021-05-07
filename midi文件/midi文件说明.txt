@@ -1,0 +1,7 @@
+DY_dalabeng.mid: 达拉崩
+                 循环性特别好,可以用于自身相似度对比.
+DY_doudizhu.mid: 斗地主
+                 空拍有特点,用于后面程序空拍的优化.
+DY_kanong.mid  : 卡农
+                 快节奏和慢节奏都有的
+DY_newSong.mid : 之前生成的例子.
