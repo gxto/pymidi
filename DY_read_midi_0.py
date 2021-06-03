@@ -57,12 +57,14 @@ def midi_read(midi_file="DY_kanong.midi"):
     time_list=[]
     action_last=0   # 上轮动作状态，0 表示没有按下； 1 表示按下；
     action=0        # 本轮动作状态， 0 表示没有按下； 1 表示按下；
+    print("位于:DY_read_midi_0.py中midi_read函数")
     for i, track in enumerate(mid.tracks):             # 用于遍历,组合成索引序列.
         print('Track {}: {}'.format(i, track.name))    # 输出:Track 0: Piano 1
         for msg in track:
   
             #print("########")
-            #print(msg)
+            # 用于显示midi文件的每个动作
+            print(msg)
             # 这里msg可以认为是，每一条动作，就代表了对钢琴键盘的一次操作。
             # 可以是按下，也可以是松开。
             # 例如下面是输出的东西：
@@ -90,6 +92,8 @@ def midi_read(midi_file="DY_kanong.midi"):
             假设按下,都按下,松开都松开,这里很规则,那么用下面这个,比较好用.
             但是有时候,会出现连续按下三个按键,下一轮松开的时候只松开了两个按键,另一个按键在多轮之后才松开,
             这个程序就会出问题...
+            另一个情况是,有空键出现的时候.也就是note on 按下的时候有时间,通常情况下,这里是没有时间的,
+            代表着按下和上次松开没有间隔,但是如果有间隔,就说明,之前有一个空的音符输入...
             
             '''
             # 按下了note_on类型,就把action赋值为1
@@ -110,6 +114,7 @@ def midi_read(midi_file="DY_kanong.midi"):
                     # 要清空内部序列，以便存入新一行的数据
                     # 把本轮的音符note存入新的一行.
                     # 并且行号要加一
+                    # 如果要是有时间间隔,就说明有空音符的存在...
                     note_list_in=[] 
                     note_list_in.append(msg.note)
                     hang=hang+1

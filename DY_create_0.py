@@ -162,6 +162,7 @@ def chord1(track):
 
 
 # 为曲子midi添加一个钢琴按键动作.
+# 为什么需要形参呢???要把形参干掉...
 def add_column_chord_2(note_list,time_cnt,track,channel=0):
     '''
     传入:
@@ -243,8 +244,9 @@ if __name__ == '__main__':
     
     # 程序运行参数配置
     method=0
-    midi_name="DY_dalabeng.mid"
-    # 获取音乐参数,所有的参数存入全局变量中
+    midi_name="DY_doudizhu.mid"
+    # 获取音乐参数,所有的参数存入全局变量中(存放在了DY_global.py文件中)
+    # 目前下面函数里就有midi_read函数,midi_read返回的音符序列和时间序列并没有存入到全局变量中????
     Dge.global_calc_midi_parameter(midi_name)    
     
     
@@ -256,7 +258,7 @@ if __name__ == '__main__':
     if method==0:
         ''' 第0种方法,曲子导入 '''
         note,timer=rd.midi_read(midi_name)
-        #Dge.global_calc_midi_parameter(Dg.midi_note_2_list)
+        # Dg的意思是全局变量
         print(Dg.midi_dic_keys_list)
         
     if method==1:
